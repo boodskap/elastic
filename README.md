@@ -1,2 +1,1 @@
-# elastic
-Elasticsearch preconfigured for Boodskap IoT Platform
+# Elasticsearch preconfigured for Boodskap IoT Platform
