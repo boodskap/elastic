@@ -5,6 +5,6 @@ echo "Fixing daa dir ownership"
 
 sudo chown -R elastic:elastic /home/elastic/data
 
-su - elastic /home/elastic/bin/elasticsearch &
+su -p - elastic /home/elastic/bin/elasticsearch &
 
 /bin/bash -c "trap : TERM INT; sleep infinity & wait"
