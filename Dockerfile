@@ -1,26 +1,19 @@
-FROM boodskapiot/ubuntu:18.04.jdk13
+FROM ubuntu:18.04
 
 MAINTAINER platform@boodskap.io
 
 LABEL Remarks="Elasticsearch preconfigured for Boodskap IoT Platform"
 
-RUN sudo adduser --disabled-password --gecos ""  elastic
+RUN apt-get -y update && apt-get install -y curl sudo
 
-RUN wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.5.1-linux-x86_64.tar.gz
-RUN tar -xzf elasticsearch-7.5.1-linux-x86_64.tar.gz
-RUN mv elasticsearch-7.5.1/* /home/elastic/
-RUN rm -rf elasticsearch-7.5.1*
+RUN sudo adduser --disabled-password --gecos ""  elastic && curl -sL https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.5.1-linux-x86_64.tar.gz | tar xzf - -C /home/elastic && mv /home/elastic/elasticsearch-7.5.1/* /home/elastic/ && rm -rf /home/elastic/elasticsearch-7.5.1*
 
 WORKDIR /
 
 COPY etc/ /etc/
 COPY elastic/ /home/elastic/
 COPY start-elastic.sh .
-
-RUN chmod +x start-elastic.sh
-
-RUN mkdir -p /home/elastic/config/scripts
-RUN chown -R elastic:elastic /home/elastic
+RUN chmod +x start-elastic.sh && mkdir -p /home/elastic/config/scripts && chown -R elastic:elastic /home/elastic
 
 EXPOSE 9200 9300
 
